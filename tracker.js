@@ -13,6 +13,7 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) throw err;
   // init()
+  action();
 });
 
 function init() {
@@ -46,30 +47,56 @@ function action() {
       let choice = answer.action;
       switch (choice) {
         case "Add a new department": {
+          console.log("add department");
+          break;
         }
         case "Add a new role": {
+          console.log("add role");
+          break;
         }
         case "Add a new employee": {
+          console.log("add employee");
+          break;
         }
         case "View employees by department": {
+          console.log("view department");
+          break;
         }
         case "View employees by role": {
+          console.log("view role");
+          break;
         }
         case "View all employees": {
+          console.log("view employees");
+          break;
         }
         case "View employees by manager": {
+          console.log("view managers");
+          break;
         }
         case "View the utilized budget for a department": {
+          console.log("view budget");
+          break;
         }
         case "Update an employee's role": {
+          console.log("update role");
+          break;
         }
         case "Update an employee's manager": {
+          console.log("update manager");
+          break;
         }
         case "Delete a department": {
+          console.log("delete department");
+          break;
         }
         case "Delete a role": {
+          console.log("delete role");
+          break;
         }
         case "Delete an employee": {
+          console.log("delete employee");
+          break;
         }
         default: {
           connection.end();
