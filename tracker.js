@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
-const consoleTable = require("console.table");
+const cTable = require("console.table");
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -12,12 +12,17 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) throw err;
-  // init()
-  action();
+  init();
+  //action();
 });
 
 function init() {
-  //print table to console
+  // need to select employee id and name, role title, department, salary, manager
+  let query = "SELECT ";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.log(res);
+  });
 }
 
 function action() {
@@ -47,7 +52,7 @@ function action() {
       let choice = answer.action;
       switch (choice) {
         case "Add a new department": {
-          console.log("add department");
+          addDepartment();
           break;
         }
         case "Add a new role": {
@@ -106,7 +111,27 @@ function action() {
 }
 
 // add department
-
+const addDepartment = () => {
+  inquirer
+    .prompt({
+      type: "input",
+      message: "Enter the name of the department you would like to add",
+      name: "department",
+    })
+    .then((answer) => {
+      let query = "INSERT INTO department SET ?";
+      connection.query(
+        query,
+        {
+          name: answer.department,
+        },
+        (err) => {
+          if (err) throw err;
+          console.log(`Added to department table: ${answer.department}`);
+        }
+      );
+    });
+};
 // add role
 
 // add employee
