@@ -38,12 +38,7 @@ function action() {
         "View employees by department",
         "View employees by role",
         "View all employees",
-        "View employees by manager",
-        "View the utilized budget for a department",
         "Update an employee's role",
-        "Update an employee's manager",
-        "Delete a department",
-        "Delete a role",
         "Delete an employee",
         "Exit application",
       ],
@@ -75,32 +70,12 @@ function action() {
           console.log("view employees");
           break;
         }
-        case "View employees by manager": {
-          console.log("view managers");
-          break;
-        }
-        case "View the utilized budget for a department": {
-          console.log("view budget");
-          break;
-        }
         case "Update an employee's role": {
           console.log("update role");
           break;
         }
-        case "Update an employee's manager": {
-          console.log("update manager");
-          break;
-        }
-        case "Delete a department": {
-          console.log("delete department");
-          break;
-        }
-        case "Delete a role": {
-          console.log("delete role");
-          break;
-        }
         case "Delete an employee": {
-          console.log("delete employee");
+          deleteEmployee();
           break;
         }
         default: {
@@ -218,16 +193,26 @@ const addEmployee = () => {
 
 // view all employees
 
-// view employees by manager
-
-// view utilized department budget (total of all salaries in that department)
-
 // update employee role
 
-// update employee manager
-
-// delete department
-
-// delete role
-
-// delete employee
+const deleteEmployee = () => {
+  inquirer
+    .prompt({
+      type: "input",
+      message: "Enter the ID of the employee you would like to delete",
+      name: "employee",
+    })
+    .then((answer) => {
+      let query = "DELETE FROM employee WHERE ?";
+      connection.query(
+        query,
+        {
+          id: answer.employee,
+        },
+        (err) => {
+          if (err) throw err;
+          console.log(`Deleted from employee table ID: ${answer.employee}`);
+        }
+      );
+    });
+};
