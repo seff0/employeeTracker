@@ -71,7 +71,7 @@ function action() {
           break;
         }
         case "Update an employee's role": {
-          console.log("update role");
+          updateRole();
           break;
         }
         case "Delete an employee": {
@@ -211,7 +211,34 @@ const viewEmployees = () => {
   });
 };
 
-// update employee role
+const updateRole = () => {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Enter the ID of the employee you would like to update",
+        name: "id",
+      },
+      {
+        type: "input",
+        message: "Enter the ID of the new role for this employee",
+        name: "role",
+      },
+    ])
+    .then((answer) => {
+      let query = "UPDATE employee SET ? WHERE ?";
+      connection.query(
+        query,
+        [{ role_id: answer.role }, { id: answer.id }],
+        (err, res) => {
+          if (err) throw err;
+          console.log(
+            `Updated employee ID: ${answer.id} to new role: ${answer.role}`
+          );
+        }
+      );
+    });
+};
 
 const deleteEmployee = () => {
   inquirer
