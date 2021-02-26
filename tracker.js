@@ -35,8 +35,8 @@ function action() {
         "Add a new department",
         "Add a new role",
         "Add a new employee",
-        "View employees by department",
-        "View employees by role",
+        "View all departments",
+        "View all roles",
         "View all employees",
         "Update an employee's role",
         "Delete an employee",
@@ -58,16 +58,16 @@ function action() {
           addEmployee();
           break;
         }
-        case "View employees by department": {
-          console.log("view department");
+        case "View all departments": {
+          viewDepartments();
           break;
         }
-        case "View employees by role": {
-          console.log("view role");
+        case "View all roles": {
+          viewRoles();
           break;
         }
         case "View all employees": {
-          console.log("view employees");
+          viewEmployees();
           break;
         }
         case "Update an employee's role": {
@@ -99,7 +99,7 @@ const addDepartment = () => {
         {
           name: answer.department,
         },
-        (err) => {
+        (err, res) => {
           if (err) throw err;
           console.log(`Added to department table: ${answer.department}`);
         }
@@ -135,7 +135,7 @@ const addRole = () => {
           salary: answer.salary,
           department_id: answer.deptId,
         },
-        (err) => {
+        (err, res) => {
           if (err) throw err;
           console.log(`Added new role: ${answer.role}`);
         }
@@ -177,7 +177,7 @@ const addEmployee = () => {
           role_id: answer.roleId,
           department_id: answer.deptId,
         },
-        (err) => {
+        (err, res) => {
           if (err) throw err;
           console.log(
             `Added new employee: ${answer.firstName} ${answer.firstName}`
@@ -187,11 +187,29 @@ const addEmployee = () => {
     });
 };
 
-// view employees by department
+const viewDepartments = () => {
+  let query = "SELECT * FROM department";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.log(res);
+  });
+};
 
-// view employees by role
+const viewRoles = () => {
+  let query = "SELECT * FROM role";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.log(res);
+  });
+};
 
-// view all employees
+const viewEmployees = () => {
+  let query = "SELECT * FROM employee";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.log(res);
+  });
+};
 
 // update employee role
 
@@ -209,7 +227,7 @@ const deleteEmployee = () => {
         {
           id: answer.employee,
         },
-        (err) => {
+        (err, res) => {
           if (err) throw err;
           console.log(`Deleted from employee table ID: ${answer.employee}`);
         }
