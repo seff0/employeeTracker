@@ -12,20 +12,23 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) throw err;
-  // init();
-  action();
 });
 
-function init() {
+function displayTable() {
   // need to select employee id and name, role title, department, salary, manager
-  let query = "SELECT ";
+  let query =
+    "SELECT employee.id, employee.first_name, employee.last_name, department.name, role.title, role.salary, employee.manager_id ";
+  query +=
+    "FROM employee, role, department WHERE employee.role_id = role.id and department.id = role.department_id";
   connection.query(query, (err, res) => {
     if (err) throw err;
-    console.log(res);
+    console.log("----------------------");
+    console.table(res);
   });
 }
 
 function action() {
+  displayTable();
   inquirer
     .prompt({
       name: "action",
@@ -102,6 +105,7 @@ const addDepartment = () => {
         (err, res) => {
           if (err) throw err;
           console.log(`Added to department table: ${answer.department}`);
+          action();
         }
       );
     });
@@ -138,6 +142,7 @@ const addRole = () => {
         (err, res) => {
           if (err) throw err;
           console.log(`Added new role: ${answer.role}`);
+          action();
         }
       );
     });
@@ -182,6 +187,7 @@ const addEmployee = () => {
           console.log(
             `Added new employee: ${answer.firstName} ${answer.firstName}`
           );
+          action();
         }
       );
     });
@@ -192,6 +198,7 @@ const viewDepartments = () => {
   connection.query(query, (err, res) => {
     if (err) throw err;
     console.log(res);
+    action();
   });
 };
 
@@ -200,6 +207,7 @@ const viewRoles = () => {
   connection.query(query, (err, res) => {
     if (err) throw err;
     console.log(res);
+    action();
   });
 };
 
@@ -208,6 +216,7 @@ const viewEmployees = () => {
   connection.query(query, (err, res) => {
     if (err) throw err;
     console.log(res);
+    action();
   });
 };
 
@@ -235,6 +244,7 @@ const updateRole = () => {
           console.log(
             `Updated employee ID: ${answer.id} to new role: ${answer.role}`
           );
+          action();
         }
       );
     });
@@ -257,7 +267,10 @@ const deleteEmployee = () => {
         (err, res) => {
           if (err) throw err;
           console.log(`Deleted from employee table ID: ${answer.employee}`);
+          action();
         }
       );
     });
 };
+
+action();
