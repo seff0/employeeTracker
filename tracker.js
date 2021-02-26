@@ -28,7 +28,6 @@ function displayTable() {
 }
 
 function action() {
-  displayTable();
   inquirer
     .prompt({
       name: "action",
@@ -105,6 +104,7 @@ const addDepartment = () => {
         (err, res) => {
           if (err) throw err;
           console.log(`Added to department table: ${answer.department}`);
+          displayTable();
           action();
         }
       );
@@ -142,6 +142,7 @@ const addRole = () => {
         (err, res) => {
           if (err) throw err;
           console.log(`Added new role: ${answer.role}`);
+          displayTable();
           action();
         }
       );
@@ -187,6 +188,7 @@ const addEmployee = () => {
           console.log(
             `Added new employee: ${answer.firstName} ${answer.firstName}`
           );
+          displayTable();
           action();
         }
       );
@@ -197,7 +199,7 @@ const viewDepartments = () => {
   let query = "SELECT * FROM department";
   connection.query(query, (err, res) => {
     if (err) throw err;
-    console.log(res);
+    console.table(res);
     action();
   });
 };
@@ -206,7 +208,7 @@ const viewRoles = () => {
   let query = "SELECT * FROM role";
   connection.query(query, (err, res) => {
     if (err) throw err;
-    console.log(res);
+    console.table(res);
     action();
   });
 };
@@ -215,7 +217,7 @@ const viewEmployees = () => {
   let query = "SELECT * FROM employee";
   connection.query(query, (err, res) => {
     if (err) throw err;
-    console.log(res);
+    console.table(res);
     action();
   });
 };
@@ -273,4 +275,5 @@ const deleteEmployee = () => {
     });
 };
 
+displayTable();
 action();
